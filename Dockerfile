@@ -89,7 +89,7 @@ COPY *.sh /home/mqperf/cph/
 COPY *.mqsc /home/mqperf/cph/
 COPY qmmonitor2 /home/mqperf/cph/
 
-USER mqperf
+USER root
 WORKDIR /home/mqperf/cph
 
 ENV MQ_QMGR_NAME=PERF0
@@ -101,4 +101,4 @@ ENV MQ_NON_PERSISTENT=
 ENV MQ_CPH_EXTRA=
 ENV MQ_USERID=
 
-ENTRYPOINT ["sudo /home/mqperf/cph/cphTest.sh"]
+ENTRYPOINT ["/home/mqperf/cph/cphTest.sh"]
