@@ -67,16 +67,16 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 # Download the large file using wget
 RUN wget -T5 -q -O /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz  https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqadv/mqadv_dev932_ubuntu_x86-64.tar.gz  && \
     tar xzf /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz && \
-    ls -ltr ./MQServer && \
     rm /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz
 
-COPY /tmp/MQServer/lap /lap
+COPY ./MQServer/lap /lap
 
 RUN export DEBIAN_FRONTEND=noninteractive \
-  && /tmp/MQServer/mqlicense.sh -accept \
-  && dpkg -i /tmp/MQServer/ibmmq-runtime_9.3.2.0_amd64.deb \
-  && dpkg -i /tmp/MQServer/ibmmq-gskit_9.3.2.0_amd64.deb \
-  && dpkg -i /tmp/MQServer/ibmmq-client_9.3.2.0_amd64.deb \
+  && ./MQServer/mqlicense.sh -accept \
+  && dpkg -i ./MQServer/ibmmq-runtime_9.3.2.0_amd64.deb \
+  && dpkg -i ./MQServer/ibmmq-gskit_9.3.2.0_amd64.deb \
+  && dpkg -i ./MQServer/ibmmq-client_9.3.2.0_amd64.deb \
+  && dpkg -i ./MQServer/ibmmq-samples_9.3.2.0_amd64.deb \
   && chown -R mqperf:root /opt/mqm/* \
   && chown -R mqperf:root /var/mqm/* \
   && chmod o+w /var/mqm
