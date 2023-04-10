@@ -71,6 +71,13 @@ RUN wget -T5 -q -O /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz  https://public.dhe.ib
     cp  -R ./MQServer/lap/* /lap && \
     rm /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz
 
+
+COPY cph/* /home/mqperf/cph/
+COPY ssl/* /opt/mqm/ssl/
+COPY *.sh /home/mqperf/cph/
+COPY *.mqsc /home/mqperf/cph/
+COPY qmmonitor2 /home/mqperf/cph/
+
 RUN export DEBIAN_FRONTEND=noninteractive \
   && ./MQServer/mqlicense.sh -accept \
   && dpkg -i ./MQServer/ibmmq-runtime_9.3.2.0_amd64.deb \
@@ -79,13 +86,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && dpkg -i ./MQServer/ibmmq-samples_9.3.2.0_amd64.deb \
   && chown -R mqperf:root /opt/mqm/* \
   && chown -R mqperf:root /var/mqm/* \
-  && chmod o+w /var/mqm
+  && chmod o+w /var/mqm \
+  && chmod u+w /home/mqperf/cph/
 
-COPY cph/* /home/mqperf/cph/
-COPY ssl/* /opt/mqm/ssl/
-COPY *.sh /home/mqperf/cph/
-COPY *.mqsc /home/mqperf/cph/
-COPY qmmonitor2 /home/mqperf/cph/
 USER mqperf
 WORKDIR /home/mqperf/cph
 
