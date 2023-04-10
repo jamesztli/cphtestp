@@ -67,9 +67,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 # Download the large file using wget
 RUN wget -T5 -q -O /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz  https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqadv/mqadv_dev932_ubuntu_x86-64.tar.gz  && \
     tar xzf /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz && \
+    cp  ./MQServer/lap /lap && \
     rm /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz
-
-COPY ./MQServer/lap /lap
 
 RUN export DEBIAN_FRONTEND=noninteractive \
   && ./MQServer/mqlicense.sh -accept \
