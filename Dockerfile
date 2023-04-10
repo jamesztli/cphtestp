@@ -101,4 +101,4 @@ ENV MQ_NON_PERSISTENT=
 ENV MQ_CPH_EXTRA=
 ENV MQ_USERID=
 
-ENTRYPOINT ["sudo", "/home/mqperf/cph/cphTest.sh"]
+ENTRYPOINT ["sudo /home/mqperf/cph/cphTest.sh"]
