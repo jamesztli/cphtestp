@@ -65,8 +65,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && echo "cd ~/cph" >> /home/mqperf/.bashrc
 
 # Download the large file using wget
-RUN wget -T5  -O /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz  https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqadv/mqadv_dev932_ubuntu_x86-64.tar.gz  && \
+RUN wget -T5 -q -O /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz  https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqadv/mqadv_dev932_ubuntu_x86-64.tar.gz  && \
     tar xzf /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz && \
+    ls -ltr /tmp && \
     rm /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz
 
 COPY /tmp/MQServer/lap /lap
