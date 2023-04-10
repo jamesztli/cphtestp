@@ -16,13 +16,6 @@ FROM ubuntu:20.04
 
 LABEL maintainer "Sam Massey <smassey@uk.ibm.com>"
 
-# Download the large file using wget
-RUN wget -T5  -O /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz  https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqadv/mqadv_dev932_ubuntu_x86-64.tar.gz  && \
-    tar xzf /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz && \
-    rm /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz
-
-COPY /tmp/MQServer/lap /lap
-
 RUN export DEBIAN_FRONTEND=noninteractive \
   # Install additional packages - do we need/want them all
   && apt-get update -y \
@@ -52,6 +45,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     dstat \
     vim \
     iproute2 \
+    wget \
   # Apply any bug fixes not included in base Ubuntu or MQ image.
   # Don't upgrade everything based on Docker best practices https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run
   && apt-get upgrade -y libkrb5-26-heimdal \
@@ -69,6 +63,13 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && chown -R mqperf:root /home/mqperf/cph \
   && chmod -R g+w /home/mqperf/cph \
   && echo "cd ~/cph" >> /home/mqperf/.bashrc
+
+# Download the large file using wget
+RUN wget -T5  -O /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz  https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqadv/mqadv_dev932_ubuntu_x86-64.tar.gz  && \
+    tar xzf /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz && \
+    rm /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz
+
+COPY /tmp/MQServer/lap /lap
 
 RUN export DEBIAN_FRONTEND=noninteractive \
   && /tmp/MQServer/mqlicense.sh -accept \
