@@ -16,6 +16,10 @@ FROM ubuntu:18.04
 
 LABEL maintainer "Sam Massey <smassey@uk.ibm.com>"
 
+COPY *.deb /
+COPY mqlicense.sh /
+COPY lap /lap
+
 RUN export DEBIAN_FRONTEND=noninteractive \
   # Install additional packages - do we need/want them all
   && apt-get update -y \
@@ -66,19 +70,12 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && chmod -R a+w /home/mqperf/cph \
   && echo "cd ~/cph" >> /home/mqperf/.bashrc
 
-# Download the large file using wget
-RUN wget -T5 -q -O /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz  https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqadv/mqadv_dev932_ubuntu_x86-64.tar.gz  && \
-    tar xzf /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz && \
-    mkdir /lap && \
-    cp  -R ./MQServer/lap/* /lap && \
-    rm /tmp/mqadv_dev932_ubuntu_x86-64.tar.gz
-
 RUN export DEBIAN_FRONTEND=noninteractive \
-  && ./MQServer/mqlicense.sh -accept \
-  && dpkg -i ./MQServer/ibmmq-runtime_9.3.2.0_amd64.deb \
-  && dpkg -i ./MQServer/ibmmq-gskit_9.3.2.0_amd64.deb \
-  && dpkg -i ./MQServer/ibmmq-client_9.3.2.0_amd64.deb \
-  && dpkg -i ./MQServer/ibmmq-samples_9.3.2.0_amd64.deb \
+  && ./mqlicense.sh -accept \
+  && dpkg -i ./ibmmq-runtime_9.3.0.4_amd64.deb \
+  && dpkg -i ./ibmmq-gskit_9.3.0.4_amd64.deb \
+  && dpkg -i ./ibmmq-client_9.3.0.4_amd64.deb \
+  && dpkg -i ./ibmmq-samples_9.3.0.4_amd64.deb \
   && chown -R mqperf:root /opt/mqm/* \
   && chown -R mqperf:root /var/mqm/* \
   && chmod o+w /var/mqm 
@@ -89,7 +86,7 @@ COPY *.sh /home/mqperf/cph/
 COPY *.mqsc /home/mqperf/cph/
 COPY qmmonitor2 /home/mqperf/cph/
 
-USER root
+USER mqperf
 WORKDIR /home/mqperf/cph
 
 ENV MQ_QMGR_NAME=PERF0
@@ -101,4 +98,4 @@ ENV MQ_NON_PERSISTENT=
 ENV MQ_CPH_EXTRA=
 ENV MQ_USERID=
 
-ENTRYPOINT ["/home/mqperf/cph/cphTest.sh"]
+ENTRYPOINT ["./cphTest.sh"]
