@@ -69,6 +69,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && chmod -R g+w /home/mqperf/cph \
   && chmod -R a+w /home/mqperf/cph \
   && chmod a+x ./mqlicense.sh \
+  && find /lap  -name "java*" -exec chmod a+x {} \
   && echo "cd ~/cph" >> /home/mqperf/.bashrc
 
 RUN export DEBIAN_FRONTEND=noninteractive \
