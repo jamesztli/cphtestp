@@ -87,7 +87,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && chown -R mqperf:root /opt/mqm/* \
   && chown -R mqperf:root /var/mqm/* \
   && chmod o+w /var/mqm \
-  && chmod a+x //home/mqperf/cph/*.sh 
+  && chmod a+x /home/mqperf/cph/*.sh \
+  && chmod a+x /home/mqperf/cph/cph 
 
 USER mqperf
 WORKDIR /home/mqperf/cph
