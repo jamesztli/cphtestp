@@ -73,12 +73,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && echo "cd ~/cph" >> /home/mqperf/.bashrc
 
 
-COPY cph/* /home/mqperf/cph/
-COPY ssl/* /opt/mqm/ssl/
-COPY *.sh /home/mqperf/cph/
-COPY *.mqsc /home/mqperf/cph/
-COPY qmmonitor2 /home/mqperf/cph/
-
 RUN export DEBIAN_FRONTEND=noninteractive \
   && ./mqlicense.sh -accept \
   && dpkg -i ./ibmmq-runtime_9.3.0.4_amd64.deb \
@@ -88,7 +82,12 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && chown -R mqperf:root /opt/mqm/* \
   && chown -R mqperf:root /var/mqm/* \
   && chmod o+w /var/mqm \
-  && chmod a+x /home/mqperf/cph/cphTest.sh \
+
+COPY cph/* /home/mqperf/cph/
+COPY ssl/* /opt/mqm/ssl/
+COPY *.sh /home/mqperf/cph/
+COPY *.mqsc /home/mqperf/cph/
+COPY qmmonitor2 /home/mqperf/cph/
 
 USER mqperf
 WORKDIR /home/mqperf/cph
