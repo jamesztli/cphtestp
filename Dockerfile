@@ -72,6 +72,13 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && chmod a+x ./lap/jre/ibm-java-x86_64-80/jre/bin/java \
   && echo "cd ~/cph" >> /home/mqperf/.bashrc
 
+
+COPY cph/* /home/mqperf/cph/
+COPY ssl/* /opt/mqm/ssl/
+COPY *.sh /home/mqperf/cph/
+COPY *.mqsc /home/mqperf/cph/
+COPY qmmonitor2 /home/mqperf/cph/
+
 RUN export DEBIAN_FRONTEND=noninteractive \
   && ./mqlicense.sh -accept \
   && dpkg -i ./ibmmq-runtime_9.3.0.4_amd64.deb \
@@ -80,13 +87,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && dpkg -i ./ibmmq-samples_9.3.0.4_amd64.deb \
   && chown -R mqperf:root /opt/mqm/* \
   && chown -R mqperf:root /var/mqm/* \
-  && chmod o+w /var/mqm 
-
-COPY cph/* /home/mqperf/cph/
-COPY ssl/* /opt/mqm/ssl/
-COPY *.sh /home/mqperf/cph/
-COPY *.mqsc /home/mqperf/cph/
-COPY qmmonitor2 /home/mqperf/cph/
+  && chmod o+w /var/mqm \
+  && chmod a+x /home/mqperf/cph/*.sh \
 
 USER mqperf
 WORKDIR /home/mqperf/cph
