@@ -68,6 +68,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && chown -R mqperf:root /home/mqperf/cph \
   && chmod -R g+w /home/mqperf/cph \
   && chmod -R a+w /home/mqperf/cph \
+  && chmod a+x ./mqlicense.sh \
   && echo "cd ~/cph" >> /home/mqperf/.bashrc
 
 RUN export DEBIAN_FRONTEND=noninteractive \
